@@ -1,0 +1,60 @@
+<form (submit)="addTask()" #taskForm="ngForm">
+    <div>
+      <input
+        type="text"
+        name="title"
+        [(ngModel)]="newTask.title"
+        placeholder="Title"
+        required
+        #title="ngModel"
+      />
+      <div *ngIf="title.invalid && title.touched">Title is required.</div>
+    </div>
+    <div>
+      <textarea
+        name="description"
+        [(ngModel)]="newTask.description"
+        placeholder="Description"
+        required
+        #description="ngModel"
+      ></textarea>
+      <div *ngIf="description.invalid && description.touched">Description is required.</div>
+    </div>
+    <div>
+      <input
+        type="number"
+        name="priority"
+        [(ngModel)]="newTask.priority"
+        placeholder="Priority"
+        required
+        #priority="ngModel"
+      />
+      <div *ngIf="priority.invalid && priority.touched">Priority is required.</div>
+    </div>
+    <div>
+      <input
+        type="date"
+        name="due_date"
+        [(ngModel)]="newTask.due_date"
+        required
+        #due_date="ngModel"
+      />
+      <div *ngIf="due_date.invalid && due_date.touched">Due date is required.</div>
+    </div>
+    <button type="submit" [disabled]="taskForm.invalid">Add Task</button>
+  </form>
+  
+   <!-- Task List -->
+   <div *ngFor="let task of tasks">
+    <div [ngClass]="{'completed': task.completed}">
+      <h3>{{ task.title }}</h3>
+      <p>{{ task.description }}</p>
+      <p>Priority: {{ task.priority }}</p>
+      <p>Due Date: {{ task.due_date | date }}</p>
+      <button (click)="editTask(task)">Edit</button>
+      <button (click)="deleteTask(task.id)">Delete</button>
+      <button (click)="toggleCompletion(task)">
+        {{ task.completed ? 'Mark as Incomplete' : 'Mark as Completed' }}
+      </button>
+    </div>
+  </div>
